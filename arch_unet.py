@@ -36,10 +36,13 @@ class UpsampleCat(nn.Module):
         self.in_nc = in_nc
         self.out_nc = out_nc
 
+
         self.deconv = nn.ConvTranspose2d(in_nc, out_nc, 2, 2, 0, False)
+        self.deconv.output_padding = 0
         initialize_weights(self.deconv, 0.1)
 
     def forward(self, x1, x2):
+        # print(x1.shape)
         x1 = self.deconv(x1)
         return torch.cat([x1, x2], dim=1)
 
